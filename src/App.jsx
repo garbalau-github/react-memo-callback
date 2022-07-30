@@ -36,6 +36,7 @@ const App = () => {
    * */
   const user = useMemo(() => createUser(name, surname), [name, surname]);
 
+  // This function gets created every time we change the state
   const greeting = (text) => {
     console.log(text);
   };
@@ -43,6 +44,7 @@ const App = () => {
   // Bug: function get called after state changes (counter, user creation)
   useEffect(() => {
     greeting(message);
+    // And this greeting is not the same we create in the component
   }, [greeting, message]);
 
   return (
