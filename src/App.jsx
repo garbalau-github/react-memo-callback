@@ -1,17 +1,32 @@
 import { useState, useMemo, useCallback } from 'react';
 import './App.css';
 
+const createUser = (name, surname) => {
+  const user = { name, surname };
+  console.log(user);
+  return user;
+};
+
 const App = () => {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
+  const [counter, setCounter] = useState(0);
 
-  const user = { name, surname };
+  // Function gets called each time components state changes (counter)
+  const user = createUser(name, surname);
 
   return (
     <div className='App'>
       <h1>useMemo, useCallback</h1>
       <br />
-      <form>
+      <h2>Counter</h2>
+      <button onClick={() => setCounter(counter + 1)}>
+        Clicked {counter} times
+      </button>
+      <br />
+      <br />
+      <h2>Form</h2>
+      <div>
         <div>
           <label>
             <div>Name</div>
@@ -32,7 +47,7 @@ const App = () => {
             />
           </label>
         </div>
-      </form>
+      </div>
       <br />
       <pre>{JSON.stringify(user, null, 2)}</pre>
     </div>
