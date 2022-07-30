@@ -12,8 +12,28 @@ const App = () => {
   const [surname, setSurname] = useState('');
   const [counter, setCounter] = useState(0);
 
-  // Function gets called each time components state changes (counter)
-  const user = createUser(name, surname);
+  // Fixed
+  /**
+   * Details:
+   *
+   * In computing, memoization or memoisation is an optimization technique used
+   * primarily to speed up computer programs by storing the results of expensive
+   * function calls and returning the cached result when the same inputs occur again.
+   *
+   * During initial rendering, useMemo(compute, dependencies) invokes compute, memoizes
+   * the calculation result, and returns it to the component.
+   * If during next renderings the dependencies don't change, then useMemo()
+   * doesn't invoke compute but returns the memoized value
+   *
+   * But if dependencies change during re-rendering, then useMemo()
+   * invokes compute, memoizes the new value, and returns it
+   *
+   * useMemo memoizes the calculation result, and returns it to the component.
+   * If during next renderings the dependencies don't change, then useMemo()
+   * doesn't invoke compute but returns the memoized value
+   *
+   * */
+  const user = useMemo(() => createUser(name, surname), [name, surname]);
 
   return (
     <div className='App'>
