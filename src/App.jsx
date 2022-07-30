@@ -33,18 +33,36 @@ const App = () => {
    * If during next renderings the dependencies don't change, then useMemo()
    * doesn't invoke compute but returns the memoized value
    *
+   * While useMemo() can improve the performance of the component, you have to make sure to profile
+   * the component with and without the hook.
+   * Only after that make the conclusion whether memoization worth it.
+   * When memoization is used inappropriately, it could harm the performance.
+   *
    * */
   const user = useMemo(() => createUser(name, surname), [name, surname]);
 
-  // This function gets created every time we change the state
-  const greeting = (text) => {
+  // Fixed
+  /**
+   *
+   * Functions in JavaScript are first-class citizens, meaning that a
+   * function is a regular object. The function object can be returned
+   * by other functions, be compared, etc.: anything you can do with an object.
+   *
+   * useCallback will return a memoized version of the callback that only changes if
+   * one of the dependencies has changed. This is useful when passing callbacks to
+   * optimized child components that rely on reference equality to prevent
+   * unnecessary renders
+   *
+   * The useCallback and useMemo Hooks are similar. The main difference is that useMemo
+   * returns a memoized value and useCallback returns a memoized function.
+   *
+   */
+  const greeting = useCallback((text) => {
     console.log(text);
-  };
+  }, []);
 
-  // Bug: function get called after state changes (counter, user creation)
   useEffect(() => {
     greeting(message);
-    // And this greeting is not the same we create in the component
   }, [greeting, message]);
 
   return (
