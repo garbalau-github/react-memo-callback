@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import './App.css';
 
 const createUser = (name, surname) => {
@@ -11,6 +11,7 @@ const App = () => {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [counter, setCounter] = useState(0);
+  const [message, setMessage] = useState('Hello World!');
 
   // Fixed
   /**
@@ -34,6 +35,15 @@ const App = () => {
    *
    * */
   const user = useMemo(() => createUser(name, surname), [name, surname]);
+
+  const greeting = (text) => {
+    console.log(text);
+  };
+
+  // Bug: function get called after state changes (counter, user creation)
+  useEffect(() => {
+    greeting(message);
+  }, [greeting, message]);
 
   return (
     <div className='App'>
